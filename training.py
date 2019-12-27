@@ -34,7 +34,7 @@ def train(model, train_data, train_labels, test_data, test_labels):
     optimizer = optim.Adam(params=model.parameters(), lr=LEARNING_RATE)
     for i in range(N_EPOCHS):
         loss = train_epoch(model, train_dataloader, optimizer)
-        print('iteration {i}: average loss:' + str(loss))
+        print('iteration {0}: average loss: {1}', i, loss)
 
 
 def train_epoch(model, train_dataloader, optimizer):

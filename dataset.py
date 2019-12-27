@@ -17,7 +17,7 @@ class TrainDataset(Dataset):
         for i, label in enumerate(self.y):
             # setup the positive idxs first
             other_label = self.y[:i]
-            positive_idx = list(np.argwhere(other_label == label))
+            positive_idx = list(np.argwhere(other_label == label).reshape(-1))
             other_label = self.y[i+1:]
             positive_idx += list(np.argwhere(other_label == label).reshape(-1) + i + 1)
             negative_idx = np.setdiff1d(np.arange(len(self.y)), positive_idx + [i])
@@ -35,8 +35,9 @@ class TrainDataset(Dataset):
         anchor = self.x[idx]
         positive_idxs = self.positive_idxs[idx]
         negative_idxs = self.negative_idxs[idx]
-        positive_idx = np.random.choice(positive_idxs, 1)
-        negative_idx = np.random.choice(negative_idxs, 1)
+        # print(np.array(positive_idxs).shape)
+        positive_idx = np.random.choice(positive_idxs, 1).item()
+        negative_idx = np.random.choice(negative_idxs, 1).item()
 
         positive = self.x[positive_idx]
         negative = self.x[negative_idx]

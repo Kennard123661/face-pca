@@ -16,7 +16,7 @@ class TripletNetwork(nn.Module):
             raise ValueError('no such network exists')
 
     def predict(self, inputs):
-        self.net(inputs)
+        return self.net(inputs)
 
     def forward(self, anchors, positives, negatives):
         anchor_feats = self.net(anchors)

@@ -37,13 +37,11 @@ def compute_accuracy(predictions, labels):
     return np.mean((predictions - labels) == 0)
 
 
-train_data, train_labels, test_data, test_labels = get_transformed_data()
-classifier = MLPClassifier(hidden_layer_sizes=(), batch_size=256, verbose=True, early_stopping=True)
-classifier.fit(train_data, train_labels)
-print(train_data.shape)
-predictions = classifier.predict(test_data)
-accuracy = compute_accuracy(predictions, test_labels)
-print(accuracy)
-
-
-
+def main():
+    train_data, train_labels, test_data, test_labels = get_transformed_data()
+    classifier = MLPClassifier(hidden_layer_sizes=(), batch_size=256, verbose=True, early_stopping=True)
+    classifier.fit(train_data, train_labels)
+    print(train_data.shape)
+    predictions = classifier.predict(test_data)
+    accuracy = compute_accuracy(predictions, test_labels)
+    print(accuracy)

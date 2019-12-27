@@ -45,3 +45,7 @@ def main():
     predictions = classifier.predict(test_data)
     accuracy = compute_accuracy(predictions, test_labels)
     print(accuracy)
+
+
+if __name__ == '__main__':
+    main()

@@ -34,7 +34,6 @@ class MlpModel(nn.Module):
         layers = [
             DenseBlock(n_inputs=self.input_dim, n_outputs=500, has_bias=False, has_bn=True, activation='relu'),
             DenseBlock(n_inputs=500, n_outputs=self.output_dim, has_bias=True, has_bn=False, activation='relu'),
-            L2Norm()
         ]
         self.net = nn.Sequential(*layers)
 

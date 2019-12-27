@@ -1,31 +1,30 @@
 import numpy as np
 from torch.utils.data._utils.collate import default_collate
-from torch.utils.data import DataLoader
+from torch.utils.data import Dataset
 
 
-class TrainDataLoader(DataLoader):
+class TrainDataset(Dataset):
     def __init__(self, data, labels):
-        super(TrainDataLoader, self).__init__()
+        super(TrainDataset, self).__init__()
         self.x = data
         self.y = labels
         assert len(self.x) == len(self.y), 'this should have the same number of samples'
-        assert self.x.shape == 2, 'this should be vectorized.'
+        assert len(self.x.shape) == 2, 'this should be vectorized.'
         self.positive_idxs, self.negative_idxs = self.get_positive_negative_idxs()
 
     def get_positive_negative_idxs(self):
         positive_idxs, negative_idxs = list(), list()
         for i, label in enumerate(self.y):
-            positive_idx, negative_idx = list(), list()
-
             # setup the positive idxs first
             other_label = self.y[:i]
-            positive_idx += list(np.argwhere(other_label == label))
+            positive_idx = list(np.argwhere(other_label == label))
             other_label = self.y[i+1:]
-            positive_idx += list(np.argwhere(other_label == label) + i + 1)
-            positive_idxs += positive_idx
+            positive_idx += list(np.argwhere(other_label == label).reshape(-1) + i + 1)
+            negative_idx = np.setdiff1d(np.arange(len(self.y)), positive_idx + [i])
+            assert len(negative_idx) + len(positive_idx) == len(self.y) - 1
 
-            negative_idx = np.setdiff1d(self.y, positive_idxs + [i])
-            negative_idxs += negative_idx
+            positive_idxs.append(positive_idx)
+            negative_idxs.append(negative_idx)
         return positive_idxs, negative_idxs
 
     def __len__(self):

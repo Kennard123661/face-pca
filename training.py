@@ -9,7 +9,7 @@ from pca import get_transformed_data
 
 N_OUTPUTS = 100
 BATCH_SIZE = 1000
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 1e-2
 N_EPOCHS = 100
 
 
